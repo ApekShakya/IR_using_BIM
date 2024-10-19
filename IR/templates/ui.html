@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book and Movie Summary Retrieval</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <div class="search-container">
+        <h1 class="main-title">Discover Summaries for Books & Movies</h1>
+        <form action="/" method="post" class="search-form">
+            <input type="text" name="query" placeholder="Search for a book or movie..." class="input-field" required>
+            <button type="submit" class="search-button">Search</button>
+        </form>
+
+        {% if results %}
+        <div class="results-section">
+            <h4>Showing results for "{{ query }}"</h4>
+            <ul class="result-list">
+                {% for document in results %}
+                <li class="result-item">
+                    <div class="result-title">{{ document["doc_id"] }}</div>
+                    <div class="result-score">Relevance: {{ document["score"] }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
