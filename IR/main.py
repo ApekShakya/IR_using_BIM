@@ -10,8 +10,6 @@ def preprocess(text):
     return re.findall(r'\b\w+\b', text.lower())
 
 
-
-
 def load_documents(folder_path):
     docs = {}
     for filename in os.listdir(folder_path):
@@ -19,11 +17,6 @@ def load_documents(folder_path):
             with open(os.path.join(folder_path, filename), 'r') as file:
                 docs[filename] = preprocess(file.read())
     return docs
-
-def load_queries(query_file_path):
-    with open(query_file_path, 'r') as file:
-        return [line.strip() for line in file.readlines()]
-    
 
 def compute_statistics(docs):
     doc_count = len(docs)
@@ -39,7 +32,6 @@ def compute_statistics(docs):
 
     return term_freq, term_doc_freq, doc_count
 
-# Compute relevance probabilities using BIM
 def compute_relevance_prob(query, term_freq, term_doc_freq, doc_count):
     scores = {}
     for doc_id in term_freq:
@@ -53,13 +45,12 @@ def compute_relevance_prob(query, term_freq, term_doc_freq, doc_count):
         scores[doc_id] = score
     return scores
 
-# Main retrieval function
 def retrieve_documents(query):
     docs = load_documents(folder_path)
 
     term_freq, term_doc_freq, doc_count = compute_statistics(docs)
 
-    # for query in queries:
+
     query_terms = preprocess(query)
     scores = compute_relevance_prob(query_terms, term_freq, term_doc_freq, doc_count)
     ranked_docs = sorted(scores.items(), key=lambda item: item[1], reverse=True)
@@ -73,5 +64,3 @@ def retrieve_documents(query):
     return ranked_docs_dict
 
 folder_path = 'C:/Users/Apek/Desktop/IR final/dataset'
-# query = "family"
-# retrieve_documents(query)
